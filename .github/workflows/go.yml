@@ -30,19 +30,19 @@ jobs:
       run: env GOOS=linux GOARCH=amd64 go build -o main-linux-amd64 main.go
 
     - name: Build for macOS(Intel)
-      run: env GOOS=darwin GOARCH=amd64 go build -o main-macos-amd64 main.go
+      # run: env GOOS=darwin GOARCH=amd64 go build -o main-macos-amd64 main.go
 
     - name: Build for macOS(Apple)
-      run: env GOOS=darwin GOARCH=arm64 go build -o main-macos-arm64 main.go
+      # run: env GOOS=darwin GOARCH=arm64 go build -o main-macos-arm64 main.go
 
     - name: Build for Windows
-      run: env GOOS=windows GOARCH=amd64 go build -o main-windows-amd64.exe main-win.go
+      # run: env GOOS=windows GOARCH=amd64 go build -o main-windows-amd64.exe main-win.go
 
     - name: Install gcc-mips-linux-gnu
       run: sudo apt-get install gcc-mips-linux-gnu
 
     - name: Build for OpenWRT
-      run: env GOOS=linux GOARCH=mipsel CC=mipsel-linux-musl-gcc  go build -o main-openwrt-mipsel.exe main.go
+      run: env GOOS=linux GOARCH=mipsle CC=mipsel-linux-musl-gcc  go build -o main-openwrt-mipsel.exe main.go
 
     - name: Determine version number
       id: version
