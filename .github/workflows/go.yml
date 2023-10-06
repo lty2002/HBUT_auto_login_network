@@ -15,33 +15,43 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Setup Go
-      uses: actions/setup-go@v2
-      with:
-        go-version: "1.20"
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: "1.20"
 
-    - name: Install dependencies
-      run: go mod download
+      - name: Install dependencies
+        run: go mod download
 
-    - name: Build for Linux
-      run: env GOOS=linux GOARCH=amd64 go build -o main-linux-amd64 main.go
-      
-    - name: Install gcc-mips-linux-gnu
-      run: sudo apt-get install gcc-mips-linux-gnu
+      - name: Build for Linux
+        run: env GOOS=linux GOARCH=amd64 go build -o main-linux-amd64 main.go
 
-    - name: Build for OpenWRT
-      run: env GOOS=linux GOARCH=mipsle CC=mipsel-linux-musl-gcc go build -o main-openwrt-mipsel main.go
+      - name: Install gcc-mips-linux-gnu
+        run: sudo apt-get install gcc-mips-linux-gnu
 
-    - name: Determine version number
-      id: version
-      run: echo "::set-output name=version::$(TZ=UTC-8 date +'%Y%m%d_%H%M%S')"
+      - name: Build for macOS(Intel)
+        run: env GOOS=darwin GOARCH=amd64 go build -o main-macos-amd64 main.go
 
-    - uses: "marvinpinto/action-automatic-releases@latest"
-      with:
-        repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        prerelease: true
-        title: Release ${{ steps.version.outputs.version }}
-        files: ./main-*-*
+      - name: Build for macOS(Apple)
+        run: env GOOS=darwin GOARCH=arm64 go build -o main-macos-arm64 main.go
+
+      - name: Build for Windows
+        run: env GOOS=windows GOARCH=amd64 go build -o main-windows-amd64.exe main-win.go
+
+      - name: Build for OpenWRT
+        run: env GOOS=linux GOARCH=mipsle CC=mipsel-linux-musl-gcc go build -o main-openwrt-mipsel main.go
+
+      - name: Determine version number
+        id: version
+        run: echo "::set-output name=version::$(TZ=UTC-8 date +'%Y%m%d_%H%M%S')"
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: true
+          automatic_release_tag: "latest"
+          title: Release ${{ steps.version.outputs.version }}
+          files: ./main-*-*
