@@ -39,7 +39,7 @@ jobs:
       run: env GOOS=windows GOARCH=amd64 go build -o main-windows-amd64.exe main-win.go
 
     - name: Install gcc-mips-linux-gnu
-      run: apt-get install gcc-mips-linux-gnu
+      run: sudo apt-get install gcc-mips-linux-gnu
 
     - name: Build for OpenWRT
       run: env GOOS=linux GOARCH=mipsel CC=mipsel-linux-musl-gcc  go build -o main-openwrt-mipsel.exe main.go
