@@ -28,16 +28,7 @@ jobs:
 
     - name: Build for Linux
       run: env GOOS=linux GOARCH=amd64 go build -o main-linux-amd64 main.go
-
-    - name: Build for macOS(Intel)
-      # run: env GOOS=darwin GOARCH=amd64 go build -o main-macos-amd64 main.go
-
-    - name: Build for macOS(Apple)
-      # run: env GOOS=darwin GOARCH=arm64 go build -o main-macos-arm64 main.go
-
-    - name: Build for Windows
-      # run: env GOOS=windows GOARCH=amd64 go build -o main-windows-amd64.exe main-win.go
-
+      
     - name: Install gcc-mips-linux-gnu
       run: sudo apt-get install gcc-mips-linux-gnu
 
